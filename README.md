@@ -22,9 +22,10 @@
 
 ```text
 ├── app.py                   # Python Flask backend server and Heuristics engine
-├── requirements.txt         # Project dependencies
 ├── .gitignore               # Excludes bytecode caches, local env, and IDEs
 ├── README.md                # Project documentation
+├── Documents/
+│   └── requirements.txt     # Project dependencies
 ├── templates/
 │   └── index.html           # Main application web interface template
 └── static/
@@ -48,9 +49,9 @@ cd -sharath-event-talks-app
 ```
 
 ### 2. Install dependencies
-Install the required Flask dependencies from `requirements.txt`:
+Install the required Flask dependencies from `Documents/requirements.txt`:
 ```bash
-pip install -r requirements.txt
+pip install -r Documents/requirements.txt
 ```
 
 ### 3. Run the application
