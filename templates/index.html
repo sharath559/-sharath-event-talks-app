@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaunchGuard AI - Pre-Deployment Readiness Review</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="bg-gradient-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="logo-wrapper">
+                    <i class="fa-solid fa-shield-halved brand-icon"></i>
+                </div>
+                <div>
+                    <h1>LaunchGuard <span class="text-gradient">AI</span></h1>
+                    <p class="tagline">Pre-flight deployment readiness checks for vibe-coded & AI-generated apps</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span class="status-indicator"><span class="pulse"></span> Local Engine Active</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <!-- Input Form Section -->
+        <section class="form-section">
+            <div class="card glass-card">
+                <div class="card-header-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                    <h2>Project Parameters</h2>
+                </div>
+                <p class="section-desc">Provide details about your codebase, tech stack, and configurations to generate a safety audit.</p>
+                
+                <form id="projectForm" novalidate>
+                    <div class="form-group">
+                        <label for="project_name">Project Name <span class="required">*</span></label>
+                        <input type="text" id="project_name" name="project_name" placeholder="e.g., OmniTask SaaS" required>
+                        <span class="error-text" id="nameError">Project Name is required.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Short Project Description</label>
+                        <textarea id="description" name="description" rows="3" placeholder="What does this app do? Describe the core purpose..."></textarea>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="form-group">
+                            <label for="tech_stack">Tech Stack</label>
+                            <input type="text" id="tech_stack" name="tech_stack" placeholder="e.g., Python Flask, React, SQLite">
+                        </div>
+                        <div class="form-group">
+                            <label for="deployment_target">Deployment Target</label>
+                            <input type="text" id="deployment_target" name="deployment_target" placeholder="e.g., Google Cloud Run, Vercel">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="main_features">Main Features</label>
+                        <textarea id="main_features" name="main_features" rows="3" placeholder="List the primary workflows or user features..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auth_details">Authentication Details</label>
+                        <input type="text" id="auth_details" name="auth_details" placeholder="e.g., JWT, Firebase Auth, Google OAuth, None">
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="form-group">
+                            <label for="database_storage">Database or Storage</label>
+                            <input type="text" id="database_storage" name="database_storage" placeholder="e.g., PostgreSQL, AWS S3">
+                        </div>
+                        <div class="form-group">
+                            <label for="external_apis">External APIs Used</label>
+                            <input type="text" id="external_apis" name="external_apis" placeholder="e.g., Stripe, OpenAI API, SendGrid">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="known_risks">Known Risks or Concerns</label>
+                        <textarea id="known_risks" name="known_risks" rows="2" placeholder="e.g., Potential for cold starts, rate limiting concerns..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="clearBtn" class="btn btn-secondary">
+                            <i class="fa-solid fa-eraser"></i> Clear Form
+                        </button>
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <span class="btn-text">
+                                <i class="fa-solid fa-circle-play"></i> Review Project
+                            </span>
+                            <span class="spinner hidden">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <!-- Welcome/Placeholder State -->
+            <div id="resultsPlaceholder" class="placeholder-state glass-card">
+                <div class="placeholder-graphics">
+                    <i class="fa-solid fa-rocket-launch placeholder-icon"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <h3>Ready for Assessment</h3>
+                <p>Fill out the project configuration form and click <strong>Review Project</strong> to start generating your LaunchGuard security, readiness, and architectural review.</p>
+                <div class="placeholder-badges">
+                    <span><i class="fa-solid fa-shield-virus"></i> Security Risks</span>
+                    <span><i class="fa-solid fa-list-check"></i> Edge Cases</span>
+                    <span><i class="fa-solid fa-chart-line"></i> Monitoring</span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="resultsLoading" class="loading-state glass-card hidden">
+                <div class="loading-animation">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+                <h3>Evaluating Codebase Spec...</h3>
+                <div class="progress-bar-container">
+                    <div id="loadingProgress" class="progress-bar"></div>
+                </div>
+                <p id="loadingStatusText" class="loading-status">Scanning tech stack details...</p>
+            </div>
+
+            <!-- Review Report Results (Rendered dynamically) -->
+            <div id="resultsReport" class="report-content hidden">
+                <!-- Summary Card -->
+                <div id="summaryCard" class="card summary-card glass-card">
+                    <div class="summary-top">
+                        <div>
+                            <span class="badge-label">PRE-FLIGHT DECISION</span>
+                            <h2 id="reportProjectName" class="report-project-title">Project Name</h2>
+                            <p class="report-meta">Audit completed successfully</p>
+                        </div>
+                        <div class="score-container">
+                            <div class="radial-progress">
+                                <svg class="progress-ring" width="80" height="80">
+                                    <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="34" cx="40" cy="40"/>
+                                    <circle id="scoreRing" class="progress-ring__circle" stroke="#10b981" stroke-width="6" fill="transparent" r="34" cx="40" cy="40"/>
+                                </svg>
+                                <div id="scoreText" class="score-value">85%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="recommendationBanner" class="recommendation-banner status-ready">
+                        <div class="banner-icon-wrapper">
+                            <i id="recIcon" class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="banner-info">
+                            <h3 id="recStatus">Ready to Deploy</h3>
+                            <p id="recExplanation">Details about recommendation</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-actions">
+                        <button id="copySummaryBtn" class="btn btn-action">
+                            <i class="fa-solid fa-copy"></i> Copy Summary
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Report Grid of Cards -->
+                <div class="report-grid">
+                    <!-- Requirements Clarity -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon clarity-bg">
+                                <i class="fa-solid fa-compass"></i>
+                            </div>
+                            <h3>Requirements Clarity</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="badge-status-row">
+                                <span>Status:</span>
+                                <span id="clarityStatus" class="badge badge-success">High</span>
+                            </div>
+                            <p id="clarityDesc" class="card-text">Clarity details...</p>
+                        </div>
+                    </div>
+
+                    <!-- Missing Requirements -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon missing-bg">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <h3>Missing Requirements</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul id="missingReqsList" class="bullets-list">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Security & Privacy Risks -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon security-bg">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h3>Security & Privacy</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul id="securityRisksList" class="bullets-list warning-bullets">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Edge Cases -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon edge-bg">
+                                <i class="fa-solid fa-code-fork"></i>
+                            </div>
+                            <h3>Edge Cases to Handle</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul id="edgeCasesList" class="bullets-list info-bullets">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Testing Recommendations -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon testing-bg">
+                                <i class="fa-solid fa-flask-vial"></i>
+                            </div>
+                            <h3>Testing Recommendations</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul id="testingRecsList" class="bullets-list success-bullets">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Monitoring & Logging -->
+                    <div class="card report-card glass-card">
+                        <div class="card-header">
+                            <div class="card-title-icon monitoring-bg">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <h3>Monitoring & Logging</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul id="monitoringList" class="bullets-list">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checklist Section -->
+                <div class="card checklist-card glass-card">
+                    <div class="card-header">
+                        <div class="card-title-icon checklist-bg">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <h3>Production Readiness Checklist</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="checklist-intro-text">Interactive pre-deployment safety checks customized for your architecture. Check off items as you verify them.</p>
+                        <div id="checklistItems" class="checklist-items">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; 2026 LaunchGuard AI. Secure your vibe-coded deployments.</p>
+    </footer>
+
+    <!-- Toast Notification for Copying -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Summary copied to clipboard!</span>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
