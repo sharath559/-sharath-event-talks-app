@@ -1,0 +1,18 @@
+user_service:
+  environment: production
+  version: 1.2.0
+  
+  database:
+    host: db.production.internal
+    port: 5432
+    username: service_user
+    password: password_placeholder_db_access_prod
+    database_name: user_service_db
+    connection_pool:
+      min_size: 5
+      max_size: 20
+      timeout_seconds: 30
+
+  api_keys:
+    payment_gateway: key_placeholder_stripe_api_live_access
+    email_service: key_placeholder_sendgrid_mail_smtp_relay

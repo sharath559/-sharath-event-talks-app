@@ -1,0 +1,23 @@
+[
+  {
+    "reviewId": "e3b0c442-98fc-11eb-a8b3-0242ac130003",
+    "productId": "SMARTPHONE_X",
+    "rating": 5,
+    "reviewText": "This smartphone exceeded my expectations. The battery life easily lasts two days under heavy usage, and the screen display is exceptionally crisp and vibrant. The camera is also top-notch, though the charging speed could be slightly faster.",
+    "reviewDate": "2026-06-10"
+  },
+  {
+    "reviewId": "f7d1b324-98fc-11eb-a8b3-0242ac130003",
+    "productId": "SMARTPHONE_X",
+    "rating": 3,
+    "reviewText": "Decent phone for the price, but the user interface feels bloated and lags occasionally. The design is sleek, and call quality is clear. If you need a basic device without high-performance demands, this works fine.",
+    "reviewDate": "2026-06-12"
+  },
+  {
+    "reviewId": "a2c5e891-98fc-11eb-a8b3-0242ac130003",
+    "productId": "SMARTPHONE_X",
+    "rating": 5,
+    "reviewText": "Absolutely love the camera quality and night mode capabilities of Smartphone X. It performs exceptionally fast with intensive games, and the build quality feels premium in the hand. Highly recommend this upgrade to everyone.",
+    "reviewDate": "2026-06-15"
+  }
+]

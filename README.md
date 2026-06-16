@@ -26,6 +26,12 @@
 ├── README.md                # Project documentation
 ├── Documents/
 │   └── requirements.txt     # Project dependencies
+├── MockData/                # Synthetic test and mock data configurations
+│   ├── customer_reviews.json # 3 synthetic customer reviews for a smartphone
+│   ├── daily_sales.json     # 7 mock daily sales records
+│   ├── users_insert.sql     # 5 SQL INSERT commands for user accounts
+│   ├── user_service_config.yaml # Sample configuration for a user microservice
+│   └── test_emails.json     # 8 standard and edge-case validation emails
 ├── templates/
 │   └── index.html           # Main application web interface template
 └── static/
@@ -71,6 +77,18 @@ Open your web browser and navigate to:
 2. **Heuristic Evaluation**: The Flask backend compiles a detailed review based on keyword queries of your specifications (e.g. checking auth patterns, testing targets, risk factors).
 3. **Checklist & Telemetry Generation**: The interface displays standard container configurations, telemetry recommendations (Sentry, JSON logging), and custom instructions depending on your chosen database and cloud hosts.
 4. **Copy Summary & Verify**: Check items off your production checklist, copy your report, and verify items with team members before pushing code live.
+
+---
+
+## 🧪 Synthetic Mock Data & Configurations
+
+For testing and validation, a set of synthetic data and configurations is provided in the `MockData/` directory:
+
+* **[customer_reviews.json](file:///Users/sharathyakara/agy-cli-projects/bq-releases-notes/MockData/customer_reviews.json)**: A JSON array of 3 smartphone customer reviews with UUID identifiers, ratings, and detailed text logs.
+* **[daily_sales.json](file:///Users/sharathyakara/agy-cli-projects/bq-releases-notes/MockData/daily_sales.json)**: A JSON dataset of 7 sequential daily sales entries (revenue, volume, region) ideal for testing reporting charts.
+* **[users_insert.sql](file:///Users/sharathyakara/agy-cli-projects/bq-releases-notes/MockData/users_insert.sql)**: Pre-compiled SQL INSERT commands to quickly bootstrap database user tables.
+* **[user_service_config.yaml](file:///Users/sharathyakara/agy-cli-projects/bq-releases-notes/MockData/user_service_config.yaml)**: Microservice yaml configuration containing database credentials and API key placeholders.
+* **[test_emails.json](file:///Users/sharathyakara/agy-cli-projects/bq-releases-notes/MockData/test_emails.json)**: A collection of 8 test emails combining valid structures, missing elements, wrong domains, and special character edge cases for system testing.
 
 ---
 
