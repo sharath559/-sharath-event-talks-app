@@ -32,6 +32,14 @@
                 </div>
             </div>
             <div class="header-actions">
+                <div class="theme-toggle-wrapper">
+                    <i class="fa-solid fa-moon theme-icon"></i>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle" aria-label="Toggle light/dark theme">
+                        <span class="slider round"></span>
+                    </label>
+                    <i class="fa-solid fa-sun theme-icon"></i>
+                </div>
                 <span class="status-indicator"><span class="pulse"></span> Local Engine Active</span>
             </div>
         </div>
@@ -175,6 +183,9 @@
                     </div>
 
                     <div class="summary-actions">
+                        <button id="exportCsvBtn" class="btn btn-action" style="margin-right: 0.75rem;">
+                            <i class="fa-solid fa-file-csv"></i> Export to CSV
+                        </button>
                         <button id="copySummaryBtn" class="btn btn-action">
                             <i class="fa-solid fa-copy"></i> Copy Summary
                         </button>
@@ -190,6 +201,9 @@
                                 <i class="fa-solid fa-compass"></i>
                             </div>
                             <h3>Requirements Clarity</h3>
+                            <button class="btn-copy-card" data-target="clarity" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <div class="badge-status-row">
@@ -207,6 +221,9 @@
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                             </div>
                             <h3>Missing Requirements</h3>
+                            <button class="btn-copy-card" data-target="missing" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <ul id="missingReqsList" class="bullets-list">
@@ -222,6 +239,9 @@
                                 <i class="fa-solid fa-shield-halved"></i>
                             </div>
                             <h3>Security & Privacy</h3>
+                            <button class="btn-copy-card" data-target="security" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <ul id="securityRisksList" class="bullets-list warning-bullets">
@@ -237,6 +257,9 @@
                                 <i class="fa-solid fa-code-fork"></i>
                             </div>
                             <h3>Edge Cases to Handle</h3>
+                            <button class="btn-copy-card" data-target="edge" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <ul id="edgeCasesList" class="bullets-list info-bullets">
@@ -252,6 +275,9 @@
                                 <i class="fa-solid fa-flask-vial"></i>
                             </div>
                             <h3>Testing Recommendations</h3>
+                            <button class="btn-copy-card" data-target="testing" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <ul id="testingRecsList" class="bullets-list success-bullets">
@@ -267,6 +293,9 @@
                                 <i class="fa-solid fa-chart-line"></i>
                             </div>
                             <h3>Monitoring & Logging</h3>
+                            <button class="btn-copy-card" data-target="monitoring" title="Copy Card Content">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div class="card-body">
                             <ul id="monitoringList" class="bullets-list">

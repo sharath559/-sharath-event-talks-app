@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnText = submitBtn.querySelector(".btn-text");
     const spinner = submitBtn.querySelector(".spinner");
 
+    // Theme Toggle
+    const themeToggle = document.getElementById("themeToggle");
+
     // Panels
     const resultsPlaceholder = document.getElementById("resultsPlaceholder");
     const resultsLoading = document.getElementById("resultsLoading");
@@ -23,6 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const recStatus = document.getElementById("recStatus");
     const recExplanation = document.getElementById("recExplanation");
     const copySummaryBtn = document.getElementById("copySummaryBtn");
+    const exportCsvBtn = document.getElementById("exportCsvBtn");
+
+    // Load theme preference from localStorage
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+        if (themeToggle) themeToggle.checked = true;
+    } else {
+        document.body.classList.remove("light-theme");
+        if (themeToggle) themeToggle.checked = false;
+    }
 
     // Report cards
     const clarityStatus = document.getElementById("clarityStatus");
@@ -333,4 +347,125 @@ Generated via LaunchGuard AI`;
                 showToast("Failed to copy summary to clipboard.");
             });
     });
+
+    // Export to CSV Action
+    exportCsvBtn.addEventListener("click", () => {
+        if (!currentReviewData) return;
+
+        const projectName = reportProjectName.textContent;
+        const rows = [
+            ["Category", "Item", "Status/Details"]
+        ];
+
+        // Overview
+        rows.push(["Overview", "Project Name", projectName]);
+        rows.push(["Overview", "Readiness Score", `${currentReviewData.score}%`]);
+        rows.push(["Overview", "Final Recommendation", currentReviewData.final_recommendation.status]);
+        rows.push(["Overview", "Recommendation Details", currentReviewData.final_recommendation.explanation]);
+
+        // Requirements Clarity
+        rows.push(["Requirements Clarity", "Clarity Rating", currentReviewData.clarity.status]);
+        rows.push(["Requirements Clarity", "Feedback", currentReviewData.clarity.description]);
+
+        // Missing Requirements
+        currentReviewData.missing_requirements.forEach((item, idx) => {
+            rows.push(["Missing Requirements", `Item ${idx + 1}`, item]);
+        });
+
+        // Security Risks
+        currentReviewData.security_risks.forEach((item, idx) => {
+            rows.push(["Security Risks", `Risk ${idx + 1}`, item]);
+        });
+
+        // Edge Cases
+        currentReviewData.edge_cases.forEach((item, idx) => {
+            rows.push(["Edge Cases", `Case ${idx + 1}`, item]);
+        });
+
+        // Testing Recommendations
+        currentReviewData.testing_recommendations.forEach((item, idx) => {
+            rows.push(["Testing", `Recommendation ${idx + 1}`, item]);
+        });
+
+        // Monitoring & Logging
+        currentReviewData.monitoring_logging.forEach((item, idx) => {
+            rows.push(["Monitoring & Logging", `Suggestion ${idx + 1}`, item]);
+        });
+
+        // Generate CSV File
+        const csvString = rows.map(e => e.map(val => `"${val.replace(/"/g, '""')}"`).join(",")).join("\n");
+        const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `launchguard_assessment_${projectName.toLowerCase().replace(/\s+/g, '_')}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        showToast("Assessment CSV exported successfully!");
+    });
+
+    // Card Specific Copy to Clipboard Action (Delegated Listener)
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".btn-copy-card");
+        if (!btn) return;
+
+        e.stopPropagation();
+        const target = btn.getAttribute("data-target");
+        if (!target || !currentReviewData) return;
+
+        let textToCopy = "";
+        let label = "";
+
+        switch (target) {
+            case "clarity":
+                textToCopy = `Requirements Clarity Rating: ${currentReviewData.clarity.status}\nDescription: ${currentReviewData.clarity.description}`;
+                label = "Clarity rating";
+                break;
+            case "missing":
+                textToCopy = `Missing Requirements:\n${currentReviewData.missing_requirements.map(item => `- ${item}`).join("\n")}`;
+                label = "Missing requirements";
+                break;
+            case "security":
+                textToCopy = `Security & Privacy Risks:\n${currentReviewData.security_risks.map(item => `- ${item}`).join("\n")}`;
+                label = "Security risks";
+                break;
+            case "edge":
+                textToCopy = `Edge Cases to Handle:\n${currentReviewData.edge_cases.map(item => `- ${item}`).join("\n")}`;
+                label = "Edge cases list";
+                break;
+            case "testing":
+                textToCopy = `Testing Recommendations:\n${currentReviewData.testing_recommendations.map(item => `- ${item}`).join("\n")}`;
+                label = "Testing recommendations";
+                break;
+            case "monitoring":
+                textToCopy = `Monitoring & Logging Suggestions:\n${currentReviewData.monitoring_logging.map(item => `- ${item}`).join("\n")}`;
+                label = "Monitoring & Logging suggestions";
+                break;
+        }
+
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                showToast(`${label} copied to clipboard!`);
+            })
+            .catch(err => {
+                console.error("Card copy failed: ", err);
+                showToast("Failed to copy card details.");
+            });
+    });
+
+    // Theme Switcher Listener
+    if (themeToggle) {
+        themeToggle.addEventListener("change", () => {
+            if (themeToggle.checked) {
+                document.body.classList.add("light-theme");
+                localStorage.setItem("theme", "light");
+            } else {
+                document.body.classList.remove("light-theme");
+                localStorage.setItem("theme", "dark");
+            }
+        });
+    }
 });
